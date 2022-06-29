@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <title>Conversor</title>
+    <title>Units Tool</title>
     <style>
         body {
             background: #4d4d4d;
@@ -15,6 +15,7 @@
         h1 {
             text-align: center;
             font-size: 200%;
+            margin-bottom: 20px;
         }
         label, h1 {
             color: #f0f0f0;
@@ -46,13 +47,22 @@
             background : #f0f0f0;
             font-family: Arial, Helvetica, sans-serif;
         }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #author {
+            margin-top: 20px;
+            color: rgb(230, 230, 230);
+        }
+
     </style>
 </head>
 <body>
     <div class="center">
-        <div id="d" class="col-sm-6">
-            <h1>Converter</h1>
+        <h1>Units Tool</h1>
 
+        <div id="d" class="col-sm-6">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" style="width: 115px">Hexadecimal:</span>
@@ -115,6 +125,16 @@
             </div>
         </div>
     </div>
+
+    <footer>
+        <a href="https://github.com/evandroad/unit-tool">
+            <img src="https://img.icons8.com/glyph-neue/48/000000/github.png"/>
+        </a>
+        <a href="https://www.linkedin.com/in/evandro-abreu-domingues/">
+            <img src="https://img.icons8.com/color/48/000000/linkedin-circled--v1.png"/>
+        </a>
+        <div id="author"><span>crated by Evandro Abreu Domingues</span></div>
+    </footer>
 
     <script>
         const HEX = 'hex'
