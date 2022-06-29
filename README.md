@@ -4,7 +4,7 @@
 
 :point_right: [Click here](https://units-tool.netlify.app/) to use.
 
-![screenshot](demo.gif)
+![screenshot](video.gif)
 
 :point_down: To clone the project with SSH:
 
