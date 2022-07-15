@@ -285,7 +285,11 @@
         }
 
         function hex2bin(num) {
-            return parseInt(num, 16).toString(2)
+            var str = '';
+            for (var n = 0; n < num.length; n += 2) {
+                str += ("00000000" + parseInt(num.substr(n, 2), 16).toString(2)).slice(-8)
+            }
+            return str;
         }
 
         function hex2Bte(num) {
