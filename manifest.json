@@ -1,0 +1,18 @@
+{
+    "lang": "pt",
+    "dir": "ltr",
+    "name": "Unit Tools",
+    "short_name": "Unit Tools",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "100x100"
+        }
+    ],
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "./?homescreen=true",
+    "orientation": "portrait",
+    "theme_color": "#e0dcdc",
+    "background_color": "#e0dcdc"
+}
