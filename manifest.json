@@ -11,7 +11,7 @@
     ],
     "display": "standalone",
     "scope": "/",
-    "start_url": "./?homescreen=true",
+    "start_url": "https://units-tool.netlify.app/",
     "orientation": "portrait",
     "theme_color": "#e0dcdc",
     "background_color": "#e0dcdc"
