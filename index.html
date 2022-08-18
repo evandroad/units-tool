@@ -354,7 +354,14 @@
         //--------------------------------------//
 
         function bin2Hex(num) {
-            return parseInt(num, 2).toString(16).toUpperCase()
+            var str = ''
+            var j = num.length
+            for (var n = 0; n < j; n += 4) {
+                aux = num.substr(n, 4)
+                aux = parseInt(aux, 2).toString(16).toUpperCase()
+                str += aux
+            }
+            return str
         }
 
         function bin2Dec(num) {
