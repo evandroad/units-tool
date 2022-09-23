@@ -1,18 +1,16 @@
 {
-    "lang": "pt",
-    "dir": "ltr",
     "name": "Unit Tools",
     "short_name": "Unit Tools",
-    "icons": [
-        {
-            "src": "icon.png",
-            "sizes": "100x100"
-        }
-    ],
     "display": "standalone",
     "scope": "/",
     "start_url": "https://units-tool.netlify.app/",
     "orientation": "portrait",
     "theme_color": "#e0dcdc",
-    "background_color": "#e0dcdc"
+    "background_color": "#e0dcdc",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "100x100"
+        }
+    ]
 }
