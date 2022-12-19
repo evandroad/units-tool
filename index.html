@@ -272,9 +272,7 @@
         // HEXADECIMAL conversions to other formats. //
         //-------------------------------------------//
 
-        function hex2Dec(num) {
-            return parseInt(num, 16)
-        }
+        function hex2Dec(num) { return parseInt(num, 16) }
 
         function hex2Asc(num) {
             var str = '';
@@ -305,21 +303,13 @@
         // DECIMAL conversions to other formats. //
         //---------------------------------------//
 
-        function dec2Hex(num) {
-            return Number(num).toString(16).toUpperCase()
-        }
+        function dec2Hex(num) { return Number(num).toString(16).toUpperCase() }
 
-        function dec2Asc(num) {
-            return hex2Asc(dec2Hex(num))
-        }
+        function dec2Asc(num) { return hex2Asc(dec2Hex(num)) }
 
-        function dec2Bin(num) {
-            return Number(num).toString(2)
-        }
+        function dec2Bin(num) { return Number(num).toString(2) }
 
-        function dec2Bte(num) {
-            return hex2Bte(dec2Hex(num))
-        }
+        function dec2Bte(num) { return hex2Bte(dec2Hex(num)) }
 
         //-------------------------------------//
         // ASCII conversions to other formats. //
@@ -333,22 +323,11 @@
             return arr1.join('');
         }
 
-        function asc2Dec(str) {
-            return hex2Dec(asc2Hex(str))
-        }
+        function asc2Dec(str) { return hex2Dec(asc2Hex(str)) }
 
-        function asc2Bin(str) {
-            return hex2bin(asc2Hex(str))
-        }
+        function asc2Bin(str) { return hex2bin(asc2Hex(str)) }
 
-        function asc2Bte(str) {
-            var bytes = [];
-            for(var i = 0; i < str.length; i++) {
-                var char = str.charCodeAt(i);
-                bytes.push(char & 0xFF);
-            }
-            return bytes;
-        }
+        function asc2Bte(str) { return hex2Bte(asc2Hex(str)) }
 
         //--------------------------------------//
         // BINARY conversions to other formats. //
@@ -364,22 +343,11 @@
             return str
         }
 
-        function bin2Dec(num) {
-            return parseInt(num, 2)
-        }
+        function bin2Dec(num) { return parseInt(num, 2) }
 
-        function bin2Asc(num) {
-            return hex2Asc(bin2Hex(num))
-        }
+        function bin2Asc(num) { return hex2Asc(bin2Hex(num)) }
 
-        function bin2Bte(num) {
-            var str = '';
-            for (var n = 0; n < num.length; n += 8) {
-                aux = num.substr(n, 8)
-                str += parseInt(aux, 2) + ', '
-            }
-            return str
-        }
+        function bin2Bte(num) { return dec2Bte(bin2Dec(num)) }
 
         //--------------------------------------//
         // BYTE conversions to other formats. //
@@ -392,42 +360,20 @@
                 if (element == 0) {
                     arr += "00"
                 } else {
-                    if (dec2Hex(element & 0xFF).length == 2) {
+                    if (dec2Hex(element & 0xFF).length == 2)
                         arr += dec2Hex(element & 0xFF)
-                    } else {
+                    else
                         arr += '0' + dec2Hex(element & 0xFF)
-                    }
                 }
             });
             return arr
         }
         
-        function bte2Dec(num) {
-            num = num.replace(/\s/g, '').split(',')
-            var arr = []
-            num.forEach(element => {
-                arr.push(element & 0xFF)
-            });
-            return arr
-        }
+        function bte2Dec(num) { return hex2Dec(bte2Hex(num)) }
 
-        function bte2Asc(num) {
-            num = num.replace(/\s/g, '').split(',')
-            var arr = ''
-            num.forEach(element => {
-                arr += dec2Asc(element & 0xFF)
-            });
-            return arr
-        }
+        function bte2Asc(num) { return hex2Asc(bin2Hex(num)) }
 
-        function bte2Bin(num) {
-            num = num.replace(/\s/g, '').split(',')
-            var arr = ''
-            num.forEach(element => {
-                arr += dec2Bin(element & 0xFF)
-            });
-            return arr
-        }
+        function bte2Bin(num) { return hex2bin(bte2Hex(num)) }
 
         //-----------------------//
         // Clearing form fields. //
