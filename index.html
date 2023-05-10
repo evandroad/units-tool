@@ -121,6 +121,12 @@
                 </div>
                 <input type="Text" id="sha1" class="form-control">
             </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" style="width: 115px">BASE64:</span>
+                </div>
+                <input type="Text" id="base64" class="form-control">
+            </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="button" onclick="cleaning()">Limpar</button>
             </div>
@@ -145,6 +151,17 @@
         const BTE = 'bte'
         const MD5 = 'md5'
         const SHA1 = 'sha1'
+        const BASE64 = 'base64'
+
+        //-------------//
+        // Handle DOM. //
+        //-------------//
+
+        function getInput(id) { return document.getElementById(id)}
+
+        function getValue(id) { return document.getElementById(id).value }
+
+        function setValue(response, id) { document.getElementById(id).value = response }
 
         //--------------//
         // Input Masks. //
@@ -197,12 +214,14 @@
             if(getValue(HEX) == '') {
                 alert('Digite um valor em Hexadecimal.')
             } else {
+                console.log(toBase64(getValue(HEX)))
                 setValue(hex2Dec(getValue(HEX)), DEC)
                 setValue(hex2Asc(getValue(HEX)), ASC)
                 setValue(hex2bin(getValue(HEX)), BIN)
                 setValue(hex2Bte(getValue(HEX)), BTE)
                 setValue(CryptoJS.MD5(getValue(HEX)), MD5)
                 setValue(CryptoJS.SHA1(getValue(HEX)), SHA1)
+                setValue(toBase64(getValue(HEX)), BASE64)
             }
         }
         
@@ -216,6 +235,7 @@
                 setValue(dec2Bte(getValue(DEC)), BTE)
                 setValue(CryptoJS.MD5(getValue(DEC)), MD5)
                 setValue(CryptoJS.SHA1(getValue(DEC)), SHA1)
+                setValue(toBase64(getValue(DEC)), BASE64)
             }
         }
         
@@ -229,6 +249,7 @@
                 setValue(asc2Bte(getValue(ASC)), BTE)
                 setValue(CryptoJS.MD5(getValue(ASC)), MD5)
                 setValue(CryptoJS.SHA1(getValue(ASC)), SHA1)
+                setValue(toBase64(getValue(ASC)), BASE64)
             }
         }
         
@@ -242,6 +263,7 @@
                 setValue(bin2Bte(getValue(BIN)), BTE)
                 setValue(CryptoJS.MD5(getValue(BIN)), MD5)
                 setValue(CryptoJS.SHA1(getValue(BIN)), SHA1)
+                setValue(toBase64(getValue(BIN)), BASE64)
             }
         }
 
@@ -255,18 +277,9 @@
                 setValue(bte2Bin(getValue(BTE)), BIN)
                 setValue(CryptoJS.MD5(getValue(BTE)), MD5)
                 setValue(CryptoJS.SHA1(getValue(BTE)), SHA1)
+                setValue(toBase64(getValue(BTE)), BASE64)
             }
         }
-
-        //-------------//
-        // Handle DOM. //
-        //-------------//
-
-        function getInput(id) { return document.getElementById(id)}
-
-        function getValue(id) { return document.getElementById(id).value }
-
-        function setValue(response, id) { document.getElementById(id).value = response }
 
         //-------------------------------------------//
         // HEXADECIMAL conversions to other formats. //
@@ -298,6 +311,8 @@
             }
             return str.slice(0, str.length - 2);
         }
+
+        function toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) }
 
         //---------------------------------------//
         // DECIMAL conversions to other formats. //
