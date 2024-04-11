@@ -200,7 +200,6 @@
 					sha1: '',
 					base64: '',
 					util: {
-						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) },
 						hex2Dec(num) { return parseInt(num, 16) },
 						hex2Asc(num) {
 							var str = '';
@@ -278,8 +277,9 @@
 							return arr
 						},
 						bte2Dec(num) { return this.hex2Dec(this.bte2Hex(num)) },
-						bte2Asc(num) { return this.hex2Asc(this.bin2Hex(num)) },
+						bte2Asc(num) { return this.hex2Asc(this.bte2Hex(num)) },
 						bte2Bin(num) { return this.hex2bin(this.bte2Hex(num)) },
+						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) }
 					}
 				}
 			},
