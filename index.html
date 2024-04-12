@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" type="image/x-icon" href="https://img.icons8.com/fluency-systems-regular/96/000000/online-coding.png">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<link rel="icon" type="image/x-icon" href="./online-coding.png">
+	<link rel="stylesheet" href="libs/4.3.1.bootstrap.min.css">
+	<script src="libs/3.4.1.jquery.min.js"></script>
+	<script src="libs/4.1.1.crypto-js.min.js.js"></script>
+	<script src="libs/vue.global.js"></script>
 	<title>Units Tool</title>
 	<style>
 		body {
@@ -210,7 +210,7 @@
 							
 							return str;
 						},
-						hex2bin(num) {
+						hex2Bin(num) {
 							var str = '';
 							
 							for (var n = 0; n < num.length; n++) {
@@ -231,7 +231,7 @@
 						},
 						dec2Hex(num) { return Number(num).toString(16).toUpperCase() },
 						dec2Asc(num) { return this.hex2Asc(this.dec2Hex(num)) },
-						dec2Bin(num) { return Number(num).toString(2) },
+						dec2Bin(num) { return this.hex2Bin(this.dec2Hex(num)) },
 						dec2Bte(num) { return this.hex2Bte(this.dec2Hex(num)) },
 						asc2Hex(str) {
 							var arr1 = [];
@@ -243,7 +243,7 @@
 							return arr1.join('');
 						},
 						asc2Dec(str) { return this.hex2Dec(this.asc2Hex(str)) },
-						asc2Bin(str) { return this.hex2bin(this.asc2Hex(str)) },
+						asc2Bin(str) { return this.hex2Bin(this.asc2Hex(str)) },
 						asc2Bte(str) { return this.hex2Bte(this.asc2Hex(str)) },
 						bin2Hex(num) {
 							var str = ''
@@ -278,7 +278,7 @@
 						},
 						bte2Dec(num) { return this.hex2Dec(this.bte2Hex(num)) },
 						bte2Asc(num) { return this.hex2Asc(this.bte2Hex(num)) },
-						bte2Bin(num) { return this.hex2bin(this.bte2Hex(num)) },
+						bte2Bin(num) { return this.hex2Bin(this.bte2Hex(num)) },
 						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) }
 					}
 				}
@@ -293,7 +293,7 @@
 
 					this.dec = this.util.hex2Dec(this.hex)
 					this.asc = this.util.hex2Asc(this.hex)
-					this.bin = this.util.hex2bin(this.hex)
+					this.bin = this.util.hex2Bin(this.hex)
 					this.bte = this.util.hex2Bte(this.hex)
 					this.md5 = CryptoJS.MD5(this.hex)
 					this.sha1 = CryptoJS.SHA1(this.hex)
