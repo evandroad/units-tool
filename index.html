@@ -215,7 +215,7 @@
 							}
 
 							var dec = '0';
-							num.split('').forEach(function(chr) {
+							num.split('').forEach(chr => {
 								var n = parseInt(chr, 16);
 								for (var t = 8; t; t >>= 1) {
 									dec = add(dec, dec);
@@ -254,58 +254,46 @@
 							return str.slice(0, str.length - 2);
 						},
 						dec2Hex(num) { 
-							let decimalNumber = BigInt(num);
-							return decimalNumber.toString(16).toUpperCase();
+							return BigInt(num).toString(16).toUpperCase()
 						},
 						dec2Asc(num) { return this.hex2Asc(this.dec2Hex(num)) },
 						dec2Bin(num) { return this.hex2Bin(this.dec2Hex(num)) },
 						dec2Bte(num) { return this.hex2Bte(this.dec2Hex(num)) },
 						asc2Hex(str) {
-							var arr1 = [];
+							const chars = str.split('')
+							let resp = '';
 							
-							for (var n = 0; n < str.length; n++) {
-								arr1.push(this.dec2Hex(str.charCodeAt(n)))
-							}
+							chars.forEach(char => {
+								let hexChar = this.dec2Hex(char)
+								resp += hexChar.padStart(2, '0')
+							})
 
-							return arr1.join('');
+							return resp;
 						},
 						asc2Dec(str) { return this.hex2Dec(this.asc2Hex(str)) },
 						asc2Bin(str) { return this.hex2Bin(this.asc2Hex(str)) },
 						asc2Bte(str) { return this.hex2Bte(this.asc2Hex(str)) },
 						bin2Hex(num) {
-							var str = ''
-							
-							for (var n = 0; n < num.length; n += 4) {
-								var aux = num.substr(n, 4)
-								aux = parseInt(aux, 2).toString(16).toUpperCase()
-								str += aux
-							}
-
-							return str
+							return	parseInt(num, 2).toString(16).toUpperCase()
 						},
-						bin2Dec(num) { return this.hex2Dec(this.bin2Hex(num)) },
+						bin2Dec(num) { return parseInt(num, 2) },
 						bin2Asc(num) { return this.hex2Asc(this.bin2Hex(num)) },
 						bin2Bte(num) { return this.dec2Bte(this.bin2Dec(num)) },
-						bte2Hex(num) {
-							num = num.replace(/\s/g, '').split(',')
-							var arr = ''
+						bte2Hex(str) {
+							str = str.replace(/\s/g, '') // remove white spaces
+							const chars = str.split(',')
+							let resp = ''
 							
-							num.forEach(element => {
-								if (element == 0) {
-									arr += "00"
-								} else {
-									if (this.dec2Hex(element & 0xFF).length == 2)
-										arr += this.dec2Hex(element & 0xFF)
-									else
-										arr += '0' + this.dec2Hex(element & 0xFF)
-								}
+							chars.forEach(charCode => {
+								let hexChar = this.dec2Hex(charCode)
+								resp += hexChar.padStart(2, '0')
 							})
 
-							return arr
+							return resp
 						},
-						bte2Dec(num) { return this.hex2Dec(this.bte2Hex(num)) },
-						bte2Asc(num) { return this.hex2Asc(this.bte2Hex(num)) },
-						bte2Bin(num) { return this.hex2Bin(this.bte2Hex(num)) },
+						bte2Dec(str) { return this.hex2Dec(this.bte2Hex(str)) },
+						bte2Asc(str) { return this.hex2Asc(this.bte2Hex(str)) },
+						bte2Bin(str) { return this.hex2Bin(this.bte2Hex(str)) },
 						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) }
 					}
 				}
