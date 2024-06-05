@@ -264,7 +264,7 @@
 							let resp = '';
 							
 							chars.forEach(char => {
-								let hexChar = this.dec2Hex(char)
+								let hexChar = this.dec2Hex(char.charCodeAt(0))
 								resp += hexChar.padStart(2, '0')
 							})
 
@@ -274,9 +274,9 @@
 						asc2Bin(str) { return this.hex2Bin(this.asc2Hex(str)) },
 						asc2Bte(str) { return this.hex2Bte(this.asc2Hex(str)) },
 						bin2Hex(num) {
-							return	parseInt(num, 2).toString(16).toUpperCase()
+							return	BigInt('0b' + num).toString(16).toUpperCase()
 						},
-						bin2Dec(num) { return parseInt(num, 2) },
+						bin2Dec(num) { return BigInt('0b' + num) },
 						bin2Asc(num) { return this.hex2Asc(this.bin2Hex(num)) },
 						bin2Bte(num) { return this.dec2Bte(this.bin2Dec(num)) },
 						bte2Hex(str) {
