@@ -135,6 +135,15 @@
 					</div>
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">BASE64:</span>
+						</div>
+						<input type="Text" id="base64" class="form-control" v-model="base64">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterBase64">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
 							<span class="input-group-text" style="width: 115px">MD5:</span>
 						</div>
 						<input type="Text" id="md5" class="form-control" v-model="md5">
@@ -144,12 +153,6 @@
 							<span class="input-group-text" style="width: 115px">SHA1:</span>
 						</div>
 						<input type="Text" id="sha1" class="form-control" v-model="sha1">
-					</div>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<span class="input-group-text" style="width: 115px">BASE64:</span>
-						</div>
-						<input type="Text" id="base64" class="form-control" v-model="base64">
 					</div>
 					<div class="form-group">
 						<button class="btn btn-primary" type="button" @click="cleaning">Limpar</button>
@@ -187,6 +190,10 @@
 
 				this.getInput(BTE).addEventListener('keypress', e => {
 					if (e.which == 13) { this.converterBte() }
+				})
+
+				this.getInput(BASE64).addEventListener('keypress', e => {
+					if (e.which == 13) { this.converterBase64() }
 				})
       },
 			data() {
@@ -294,7 +301,20 @@
 						bte2Dec(str) { return this.hex2Dec(this.bte2Hex(str)) },
 						bte2Asc(str) { return this.hex2Asc(this.bte2Hex(str)) },
 						bte2Bin(str) { return this.hex2Bin(this.bte2Hex(str)) },
-						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) }
+						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) },
+						bas2Hex(str) {
+							return window.atob(str)
+								.split('')
+								.map(function (aChar) {
+									return ('0' + aChar.charCodeAt(0).toString(16)).slice(-2)
+								})
+							.join('')
+							.toUpperCase()
+						},
+						bas2Dec(str) { return this.hex2Dec(this.bas2Hex(str)) },
+						bas2Asc(str) { return this.hex2Asc(this.bas2Hex(str)) },
+						bas2Bin(str) { return this.hex2Bin(this.bas2Hex(str)) },
+						bas2Bte(str) { return this.hex2Bte(this.bas2Hex(str)) }
 					}
 				}
 			},
@@ -369,6 +389,20 @@
 					this.md5 = CryptoJS.MD5(this.bte)
 					this.sha1 = CryptoJS.SHA1(this.bte)
 					this.base64 = this.util.toBase64(this.bte)
+				},
+				converterBase64() {
+					if (this.base64 == '') {
+						alert('Digite um valor em Base64.')
+						return
+					}
+
+					this.hex = this.util.bas2Hex(this.base64)
+					this.dec = this.util.bas2Dec(this.base64)
+					this.asc = this.util.bas2Asc(this.base64)
+					this.bin = this.util.bas2Bin(this.base64)
+					this.bte = this.util.bas2Bte(this.base64)
+					this.md5 = CryptoJS.MD5(this.base64)
+					this.sha1 = CryptoJS.SHA1(this.base64)
 				},
 				cleaning() {
 					this.hex = ''
