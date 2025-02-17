@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="./icon.png">
+	<link rel="stylesheet" href="libs/4.3.1.bootstrap.min.css">
+	<script src="libs/3.4.1.jquery.min.js"></script>
+	<script src="libs/4.1.1.crypto-js.min.js.js"></script>
+	<script src="libs/vue.global.js"></script>
+	<title>Units Tool</title>
+	<style>
+		body {
+			background: #4d4d4d;
+		}
+		h1 {
+			text-align: center;
+			font-size: 200%;
+			margin-bottom: 20px;
+		}
+		label, h1 {
+			color: #f0f0f0;
+		}
+		.center {
+			padding: 10px;
+		}
+		#d {
+			background: #333333;
+			margin: auto;
+			border: #dadada solid 1px;
+			border-radius: 15px;
+			padding: 15px;
+		}
+		table {
+			margin-top: 20px;
+		}
+		th {
+			border : solid black 1px;
+			border-radius : 3px;
+			padding : 3px;
+			background : #dadada;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		td {
+			border : solid black 1px;
+			border-radius : 3px;
+			padding : 3px;
+			background : #f0f0f0;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		footer {
+			margin-top: 20px;
+			text-align: center;
+		}
+		#author {
+			margin-top: 20px;
+			color: rgb(230, 230, 230);
+		}
+	</style>
+</head>
+<body>
+	<h1>Units Tool</h1>
+
+	<div id="app" class="center"></div>
+
+	<footer>
+		<a href="https://github.com/evandroad/unit-tool">
+			<img src="https://img.icons8.com/glyph-neue/48/000000/github.png"/>
+		</a>
+		<a href="https://www.linkedin.com/in/evandro-abreu-domingues/">
+			<img src="https://img.icons8.com/color/48/000000/linkedin-circled--v1.png"/>
+		</a>
+		<div id="author"><span>Created by Evandro Abreu Domingues</span></div>
+	</footer>
+
+	<script type="module">
+		const { createApp } = Vue
+		const HEX = 'hex'
+		const DEC = 'dec'
+		const ASC = 'asc'
+		const BIN = 'bin'
+		const BTE = 'bte'
+		const MD5 = 'md5'
+		const SHA1 = 'sha1'
+		const BASE64 = 'base64'
+	
+		createApp({
+			template: `
+				<div id="d" class="col-xl-8">
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">Hexadecimal:</span>
+						</div>
+						<input type="text" id="hex" class="form-control" v-model="hex">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterHex">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">Decimal:</span>
+						</div>
+						<input type="text" id="dec" class="form-control" v-model="dec">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterDec">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">ASCII:</span>
+						</div>
+						<input type="text" id="asc" class="form-control" v-model="asc">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterAsc">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">Binário:</span>
+						</div>
+						<input type="text" id="bin" class="form-control" v-model="bin">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterBin">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">Byte:</span>
+						</div>
+						<input type="text" id="bte" class="form-control" v-model="bte">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterBte">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">BASE64:</span>
+						</div>
+						<input type="Text" id="base64" class="form-control" v-model="base64">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterBase64">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">MD5:</span>
+						</div>
+						<input type="Text" id="md5" class="form-control" v-model="md5">
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">SHA1:</span>
+						</div>
+						<input type="Text" id="sha1" class="form-control" v-model="sha1">
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" type="button" @click="cleaning">Limpar</button>
+					</div>
+				</div>
+			`,
+			mounted() {
+				this.getInput(HEX).onkeyup = () => {
+					this.hex = this.hex.replace(/[^0-9a-f]+/gi, "")
+				}
+
+				this.getInput(DEC).onkeyup = () => {
+					this.dec = this.dec.replace(/[^0-9]+/gi, "")
+				}
+		
+				this.getInput(BIN).onkeyup = () => {
+					this.bin = this.bin.replace(/[^0-1]+/gi, "")
+				}
+
+				this.getInput(HEX).addEventListener('keypress', e => {
+		    	if (e.which == 13) { this.converterHex() }
+				})
+
+				this.getInput(DEC).addEventListener('keypress', e => {
+					if (e.which == 13) { this.converterDec() }
+				})
+				
+				this.getInput(ASC).addEventListener('keypress', e => {
+					if (e.which == 13) { this.converterAsc() }
+				})
+				
+				this.getInput(BIN).addEventListener('keypress', e => {
+					if (e.which == 13) { this.converterBin() }
+				})
+
+				this.getInput(BTE).addEventListener('keypress', e => {
+					if (e.which == 13) { this.converterBte() }
+				})
+
+				this.getInput(BASE64).addEventListener('keypress', e => {
+					if (e.which == 13) { this.converterBase64() }
+				})
+      },
+			data() {
+				return {
+					hex: '',
+					dec: '',
+					asc: '',
+					bin: '',
+					bte: '',
+					md5: '',
+					sha1: '',
+					base64: '',
+					util: {
+						hex2Dec(num) {
+							function add(x, y) {
+								var c = 0, r = [];
+								var x = x.split('').map(Number);
+								var y = y.split('').map(Number);
+								while(x.length || y.length) {
+									var s = (x.pop() || 0) + (y.pop() || 0) + c;
+									r.unshift(s < 10 ? s : s - 10); 
+									c = s < 10 ? 0 : 1;
+								}
+								if(c) r.unshift(c);
+								return r.join('');
+							}
+
+							var dec = '0';
+							num.split('').forEach(chr => {
+								var n = parseInt(chr, 16);
+								for (var t = 8; t; t >>= 1) {
+									dec = add(dec, dec);
+									if(n & t) dec = add(dec, '1');
+								}
+							})
+
+							return dec;
+						},
+						hex2Asc(num) {
+							var str = '';
+							
+							for (var n = 0; n < num.length; n += 2) {
+								str += String.fromCharCode(this.hex2Dec(num.substr(n, 2)));
+							}
+							
+							return str;
+						},
+						hex2Bin(num) {
+							var str = '';
+							
+							for (var n = 0; n < num.length; n++) {
+								var aux = num.substr(n, 1)
+								str += ("0000" + parseInt(aux, 16).toString(2)).slice(-4)
+							}
+							
+							return str;
+						},
+						hex2Bte(num) {
+							var str = '';
+							
+							for (var n = 0; n < num.length; n += 2) {
+								str += this.hex2Dec(num.substr(n, 2)) + ", "
+							}
+							
+							return str.slice(0, str.length - 2);
+						},
+						dec2Hex(num) { 
+							return BigInt(num).toString(16).toUpperCase()
+						},
+						dec2Asc(num) { return this.hex2Asc(this.dec2Hex(num)) },
+						dec2Bin(num) { return this.hex2Bin(this.dec2Hex(num)) },
+						dec2Bte(num) { return this.hex2Bte(this.dec2Hex(num)) },
+						asc2Hex(str) {
+							const chars = str.split('')
+							let resp = '';
+							
+							chars.forEach(char => {
+								let hexChar = this.dec2Hex(char.charCodeAt(0))
+								resp += hexChar.padStart(2, '0')
+							})
+
+							return resp;
+						},
+						asc2Dec(str) { return this.hex2Dec(this.asc2Hex(str)) },
+						asc2Bin(str) { return this.hex2Bin(this.asc2Hex(str)) },
+						asc2Bte(str) { return this.hex2Bte(this.asc2Hex(str)) },
+						bin2Hex(num) {
+							return	BigInt('0b' + num).toString(16).toUpperCase()
+						},
+						bin2Dec(num) { return BigInt('0b' + num) },
+						bin2Asc(num) { return this.hex2Asc(this.bin2Hex(num)) },
+						bin2Bte(num) { return this.dec2Bte(this.bin2Dec(num)) },
+						bte2Hex(str) {
+							str = str.replace(/\s/g, '') // remove white spaces
+							const chars = str.split(',')
+							let resp = ''
+							
+							chars.forEach(charCode => {
+								let hexChar = this.dec2Hex(charCode)
+								resp += hexChar.padStart(2, '0')
+							})
+
+							return resp
+						},
+						bte2Dec(str) { return this.hex2Dec(this.bte2Hex(str)) },
+						bte2Asc(str) { return this.hex2Asc(this.bte2Hex(str)) },
+						bte2Bin(str) { return this.hex2Bin(this.bte2Hex(str)) },
+						toBase64(word) { return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(word)) },
+						bas2Hex(str) {
+							return window.atob(str)
+								.split('')
+								.map(function (aChar) {
+									return ('0' + aChar.charCodeAt(0).toString(16)).slice(-2)
+								})
+							.join('')
+							.toUpperCase()
+						},
+						bas2Dec(str) { return this.hex2Dec(this.bas2Hex(str)) },
+						bas2Asc(str) { return this.hex2Asc(this.bas2Hex(str)) },
+						bas2Bin(str) { return this.hex2Bin(this.bas2Hex(str)) },
+						bas2Bte(str) { return this.hex2Bte(this.bas2Hex(str)) }
+					}
+				}
+			},
+			methods: {
+				getInput(id) { return document.getElementById(id) },
+				converterHex() {
+					if (this.hex == '') {
+						alert('Digite um valor em Hexadecimal.')
+						return
+					}
+
+					this.dec = this.util.hex2Dec(this.hex)
+					this.asc = this.util.hex2Asc(this.hex)
+					this.bin = this.util.hex2Bin(this.hex)
+					this.bte = this.util.hex2Bte(this.hex)
+					this.md5 = CryptoJS.MD5(this.hex)
+					this.sha1 = CryptoJS.SHA1(this.hex)
+					this.base64 = this.util.toBase64(this.hex)
+				},
+				converterDec() {
+					if (this.dec == '') {
+						alert('Digite um valor em Decimal.')
+						return
+					}
+
+					this.hex = this.util.dec2Hex(this.dec)
+					this.asc = this.util.dec2Asc(this.dec)
+					this.bin = this.util.dec2Bin(this.dec)
+					this.bte = this.util.dec2Bte(this.dec)
+					this.md5 = CryptoJS.MD5(this.dec)
+					this.sha1 = CryptoJS.SHA1(this.dec)
+					this.base64 = this.util.toBase64(this.dec)
+				},
+				converterAsc() {
+					if (this.asc == '') {
+						alert('Digite um valor em ASCII.')
+						return
+					}
+
+					this.hex = this.util.asc2Hex(this.asc)
+					this.dec = this.util.asc2Dec(this.asc)
+					this.bin = this.util.asc2Bin(this.asc)
+					this.bte = this.util.asc2Bte(this.asc)
+					this.md5 = CryptoJS.MD5(this.asc)
+					this.sha1 = CryptoJS.SHA1(this.asc)
+					this.base64 = this.util.toBase64(this.asc)
+				},
+				converterBin() {
+					if (this.bin == '') {
+						alert('Digite um valor em Binário.')
+						return
+					}
+
+					this.hex = this.util.bin2Hex(this.bin)
+					this.dec = this.util.bin2Dec(this.bin)
+					this.asc = this.util.bin2Asc(this.bin)
+					this.bte = this.util.bin2Bte(this.bin)
+					this.md5 = CryptoJS.MD5(this.bin)
+					this.sha1 = CryptoJS.SHA1(this.bin)
+					this.base64 = this.util.toBase64(this.bin)
+				},
+				converterBte() {
+					if (this.bte == '') {
+						alert('Digite um valor em Byte.')
+						return
+					}
+
+					this.hex = this.util.bte2Hex(this.bte)
+					this.dec = this.util.bte2Dec(this.bte)
+					this.asc = this.util.bte2Asc(this.bte)
+					this.bin = this.util.bte2Bin(this.bte)
+					this.md5 = CryptoJS.MD5(this.bte)
+					this.sha1 = CryptoJS.SHA1(this.bte)
+					this.base64 = this.util.toBase64(this.bte)
+				},
+				converterBase64() {
+					if (this.base64 == '') {
+						alert('Digite um valor em Base64.')
+						return
+					}
+
+					this.hex = this.util.bas2Hex(this.base64)
+					this.dec = this.util.bas2Dec(this.base64)
+					this.asc = this.util.bas2Asc(this.base64)
+					this.bin = this.util.bas2Bin(this.base64)
+					this.bte = this.util.bas2Bte(this.base64)
+					this.md5 = CryptoJS.MD5(this.base64)
+					this.sha1 = CryptoJS.SHA1(this.base64)
+				},
+				cleaning() {
+					this.hex = ''
+					this.dec = ''
+					this.asc = ''
+					this.bin = ''
+					this.bte = ''
+					this.md5 = ''
+					this.sha1 = ''
+					this.base64 = ''
+				}
+			}
+		}).mount('#app')
+	</script>
+</body>
+</html>
