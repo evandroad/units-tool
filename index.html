@@ -8,7 +8,9 @@
 	<link rel="stylesheet" href="libs/4.3.1.bootstrap.min.css">
 	<script src="libs/3.4.1.jquery.min.js"></script>
 	<script src="libs/4.1.1.crypto-js.min.js.js"></script>
+	<!-- <script src="libs/2.4.3.bcrypt.min.js"></script> -->
 	<script src="libs/vue.global.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js"></script>
 	<title>Units Tool</title>
 	<style>
 		body {
@@ -135,11 +137,21 @@
 					</div>
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
-							<span class="input-group-text" style="width: 115px">BASE64:</span>
+							<span class="input-group-text" style="width: 115px">Base64:</span>
 						</div>
 						<input type="Text" id="base64" class="form-control" v-model="base64">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="button" @click="converterBase64">Converter</button>
+						</div>
+					</div>
+					<div class="input-group mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text" style="width: 115px">Bcrypt:</span>
+						</div>
+						<input type="Text" id="bcrypt" class="form-control" v-model="bcrypt" style="width: 70%">
+						<input type="Text" id="salt" class="form-control" v-model="salt" style="width: 1%" placeholder="salt">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button" @click="converterBcrypt">Converter</button>
 						</div>
 					</div>
 					<div class="input-group mb-3">
@@ -160,6 +172,16 @@
 				</div>
 			`,
 			mounted() {
+				const bcrypt = dcodeIO.bcrypt
+				const senha = "123456"
+				const salt = bcrypt.genSaltSync(10)
+				const hash = bcrypt.hashSync(senha, salt)
+
+				console.log("Hash:", hash)
+
+				const confere = bcrypt.compareSync("123456", hash)
+				console.log("Confere: ", confere)
+
 				this.getInput(HEX).onkeyup = () => {
 					this.hex = this.hex.replace(/[^0-9a-f]+/gi, "")
 				}
@@ -206,6 +228,8 @@
 					md5: '',
 					sha1: '',
 					base64: '',
+					bcrypt: '',
+					salt: '',
 					util: {
 						hex2Dec(num) {
 							function add(x, y) {
@@ -314,7 +338,7 @@
 						bas2Dec(str) { return this.hex2Dec(this.bas2Hex(str)) },
 						bas2Asc(str) { return this.hex2Asc(this.bas2Hex(str)) },
 						bas2Bin(str) { return this.hex2Bin(this.bas2Hex(str)) },
-						bas2Bte(str) { return this.hex2Bte(this.bas2Hex(str)) }
+						bas2Bte(str) { return this.hex2Bte(this.bas2Hex(str)) },
 					}
 				}
 			},
@@ -361,6 +385,10 @@
 					this.md5 = CryptoJS.MD5(this.asc)
 					this.sha1 = CryptoJS.SHA1(this.asc)
 					this.base64 = this.util.toBase64(this.asc)
+					this.salt = this.salt ? Number(this.salt) : 10
+					console.log(this.salt)
+					const salt = dcodeIO.bcrypt.genSaltSync(this.salt ?? 10)
+					this.bcrypt = dcodeIO.bcrypt.hashSync(this.asc, salt)
 				},
 				converterBin() {
 					if (this.bin == '') {
@@ -393,6 +421,25 @@
 				converterBase64() {
 					if (this.base64 == '') {
 						alert('Digite um valor em Base64.')
+						return
+					}
+
+					this.hex = this.util.bas2Hex(this.base64)
+					this.dec = this.util.bas2Dec(this.base64)
+					this.asc = this.util.bas2Asc(this.base64)
+					this.bin = this.util.bas2Bin(this.base64)
+					this.bte = this.util.bas2Bte(this.base64)
+					this.md5 = CryptoJS.MD5(this.base64)
+					this.sha1 = CryptoJS.SHA1(this.base64)
+				},
+				converterBcrypt() {
+					if (this.bcrypt == '') {
+						alert('Digite um valor em Bcrypt.')
+						return
+					}
+
+					if (this.salt == '') {
+						alert('Digite um valor para Salt.')
 						return
 					}
 
